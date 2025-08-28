@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hac ve Umre - Etkileşimli Öğrenme</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      background-color: #f4f6f7;
+      color: #2c3e50;
+    }
+    h1, h2 {
+      color: #1a5276;
+    }
+    .kavram {
+      color: #2874a6;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .aciklama {
+      display: none;
+      background-color: #d6eaf8;
+      padding: 10px;
+      margin: 10px 0;
+      border-left: 4px solid #2874a6;
+    }
+    .etkinlik {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    input[type="text"], select {
+      width: 90%;
+      padding: 8px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    button {
+      padding: 8px 12px;
+      background-color: #2874a6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+    .dogru { color: green; }
+    .yanlis { color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>🕋 Hac ve Umre Ünitesi</h1>
+  <p>Bu sayfada <span class="kavram" onclick="toggle('hac')">Hac</span>, <span class="kavram" onclick="toggle('umre')">Umre</span>, <span class="kavram" onclick="toggle('ihram')">İhram</span>, <span class="kavram" onclick="toggle('tavaf')">Tavaf</span>, <span class="kavram" onclick="toggle('say')">Say</span>, <span class="kavram" onclick="toggle('vakfe')">Vakfe</span>, <span class="kavram" onclick="toggle('mikat')">Mikat</span> gibi kavramları öğrenecek, günlük örneklerle pekiştirecek ve etkinliklerle bilgini test edeceksin.</p>
+
+  <div id="hac" class="aciklama"><strong>Hac:</strong> İslam’ın beş şartından biridir. Müslümanların yılın belirli zamanında Kâbe’yi ziyaret ederek yerine getirdiği farz bir ibadettir.</div>
+  <div id="umre" class="aciklama"><strong>Umre:</strong> Hac gibi Kâbe’yi ziyaret etmeyi içerir ama yılın herhangi bir zamanında yapılabilir ve farz değil, sünnettir.</div>
+  <div id="ihram" class="aciklama"><strong>İhram:</strong> Hac veya Umre’ye başlamak için niyet edip belirli kurallara uymaya başlama durumudur. Erkekler için özel beyaz giysi giyilir.</div>
+  <div id="tavaf" class="aciklama"><strong>Tavaf:</strong> Kâbe’nin etrafında 7 kez dönerek yapılan ibadettir.</div>
+  <div id="say" class="aciklama"><strong>Say:</strong> Safa ile Merve tepeleri arasında 7 kez gidip gelmektir. Hz. Hacer’in su arayışını simgeler.</div>
+  <div id="vakfe" class="aciklama"><strong>Vakfe:</strong> Arafat’ta belirli süre durmak ve dua etmektir. Hac’ın en önemli rükünlerinden biridir.</div>
+  <div id="mikat" class="aciklama"><strong>Mikat:</strong> Hac veya Umre’ye başlamadan ihrama girilmesi gereken sınır bölgesidir.</div>
+
+  <h2>📌 Günlük Hayattan Örnek</h2>
+  <p>Ali ailesiyle birlikte Hac yolculuğuna çıktı. Önce ihrama girdi, sonra Kâbe’yi tavaf etti. Safa ile Merve arasında say yaptı. Arafat’ta vakfe yaptıktan sonra Mina’da şeytan taşladı. Bu yolculuk onun hayatında unutulmaz bir manevi deneyim oldu.</p>
+
+  <div class="etkinlik">
+    <h2>📝 Boşluk Doldurma</h2>
+    <p>Hac, İslam’ın ______ şartından biridir.</p>
+    <input type="text" id="bosluk1">
+    <button onclick="kontrolBosluk()">Kontrol Et</button>
+    <p id="cevap1"></p>
+  </div>
+
+  <div class="etkinlik">
+    <h2>✅ Doğru / Yanlış</h2>
+    <p>Umre sadece Ramazan ayında yapılabilir. <button onclick="dogruYanlis(false, 'dy1')">Doğru</button> <button onclick="dogruYanlis(true, 'dy1')">Yanlış</button></p>
+    <p id="dy1"></p>
+
+    <p>Vakfe, Arafat’ta yapılan bir ibadettir. <button onclick="dogruYanlis(true, 'dy2')">Doğru</button> <button onclick="dogruYanlis(false, 'dy2')">Yanlış</button></p>
+    <p id="dy2"></p>
+  </div>
+
+  <div class="etkinlik">
+    <h2>🔗 Eşleştirme</h2>
+    <p><strong>Aşağıdaki kavramları eşleştir:</strong></p>
+    <ul>
+      <li>İhram → <select id="es1">
+        <option value="">Seç</option>
+        <option value="niyet">Niyet ve özel kıyafet</option>
+        <option value="dua">Dua etme</option>
+      </select></li>
+      <li>Say → <select id="es2">
+        <option value="">Seç</option>
+        <option value="safa-merve">Safa-Merve arasında gidip gelme</option>
+        <option value="tavaf">Kâbe’yi dönme</option>
+      </select></li>
+    </ul>
+    <button onclick="kontrolEs()">Kontrol Et</button>
+    <p id="esSonuc"></p>
+  </div>
+
+  <script>
+    function toggle(id) {
+      var elem = document.getElementById(id);
+      elem.style.display = (elem.style.display === "none" || elem.style.display === "") ? "block" : "none";
+    }
+
+    function kontrolBosluk() {
+      var cevap = document.getElementById("bosluk1").value.trim().toLowerCase();
+      var sonuc = document.getElementById("cevap1");
+      if (cevap === "beş") {
+        sonuc.innerHTML = "<span class='dogru'>✔ Doğru!</span>";
+      } else {
+        sonuc.innerHTML = "<span class='yanlis'>✖ Yanlış. Doğru cevap: beş</span>";
+      }
+    }
+
+    function dogruYanlis(dogruMu, id) {
+      var sonuc = document.getElementById(id);
+      if (dogruMu) {
+        sonuc.innerHTML = "<span class='dogru'>✔ Doğru!</span>";
+      } else {
+        sonuc.innerHTML = "<span class='yanlis'>✖ Yanlış!</span>";
+      }
+    }
+
+    function kontrolEs() {
+      var es1 = document.getElementById("es1").value;
+      var es2 = document.getElementById("es2").value;
+      var sonuc = document.getElementById("esSonuc");
+      if (es1 === "niyet" && es2 === "safa-merve") {
+        sonuc.innerHTML = "<span class='dogru'>✔ Tüm eşleştirmeler doğru!</span>";
+      } else {
+        sonuc.innerHTML = "<span class='
