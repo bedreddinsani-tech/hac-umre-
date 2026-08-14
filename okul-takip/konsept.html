@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sınıf Pusulası</title>
+<style>
+/* ── BASLA:STIL ─────────────────────────────────────────────── */
+:root{
+  --kagit:#F4F6F9;
+  --yuzey:#FFFFFF;
+  --yuzey-2:#EDF0F6;
+  --murekkep:#12203F;
+  --murekkep-2:#4E5A75;
+  --murekkep-3:#7C87A0;
+  --cizgi:#DCE1EB;
+  --cizgi-2:#C3CAD9;
+  --mavi:#23429E;
+  --mavi-yumusak:#E6EBFA;
+  --mavi-uzeri:#FFFFFF;
+  --kirmizi:#B3261E;
+  --kirmizi-yumusak:#FBE9E7;
+  --yesil:#146B4A;
+  --yesil-yumusak:#E3F2EA;
+  --amber:#8A6100;
+  --amber-yumusak:#FBF0DA;
+  --grid:rgba(35,66,158,.055);
+  --golge:0 1px 2px rgba(18,32,63,.06), 0 8px 24px rgba(18,32,63,.06);
+  --golge-yok:0 1px 2px rgba(18,32,63,.05);
+
+  --display:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --metin:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --veri:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --kagit:#0D1320;
+    --yuzey:#151D2E;
+    --yuzey-2:#1C2538;
+    --murekkep:#E6EAF3;
+    --murekkep-2:#9EAAC4;
+    --murekkep-3:#77839E;
+    --cizgi:#28324A;
+    --cizgi-2:#374260;
+    --mavi:#93AAFF;
+    --mavi-yumusak:#1A2444;
+    --mavi-uzeri:#0D1320;
+    --kirmizi:#FF9C90;
+    --kirmizi-yumusak:#33191A;
+    --yesil:#5FC79A;
+    --yesil-yumusak:#122A22;
+    --amber:#E2B25C;
+    --amber-yumusak:#2C2314;
+    --grid:rgba(147,170,255,.05);
+    --golge:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+    --golge-yok:0 1px 2px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --kagit:#0D1320;
+  --yuzey:#151D2E;
+  --yuzey-2:#1C2538;
+  --murekkep:#E6EAF3;
+  --murekkep-2:#9EAAC4;
+  --murekkep-3:#77839E;
+  --cizgi:#28324A;
+  --cizgi-2:#374260;
+  --mavi:#93AAFF;
+  --mavi-yumusak:#1A2444;
+  --mavi-uzeri:#0D1320;
+  --kirmizi:#FF9C90;
+  --kirmizi-yumusak:#33191A;
+  --yesil:#5FC79A;
+  --yesil-yumusak:#122A22;
+  --amber:#E2B25C;
+  --amber-yumusak:#2C2314;
+  --grid:rgba(147,170,255,.05);
+  --golge:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+  --golge-yok:0 1px 2px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background-color:var(--kagit);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+  color:var(--murekkep);
+  font-family:var(--metin);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+
+.sarma{max-width:1120px;margin:0 auto;padding:0 24px}
+.omurga{max-width:40rem;margin:0 auto}
+
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.12;letter-spacing:-.022em}
+h1{font-size:clamp(2.5rem,7vw,4.4rem);font-weight:800}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:800}
+h3{font-size:1.18rem;font-weight:700;letter-spacing:-.012em}
+p{margin:0}
+a{color:var(--mavi)}
+strong{font-weight:700}
+
+.etiket{
+  font-family:var(--veri);font-size:.7rem;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--murekkep-3);
+}
+
+/* ── Bolum yapisi ─────────────────────────────────────────── */
+.bolum{padding:64px 0;border-top:1px solid var(--cizgi)}
+.bolum-bas{display:flex;flex-direction:column;gap:10px;margin-bottom:34px}
+.metin-akis{display:flex;flex-direction:column;gap:18px}
+.metin-akis h3{margin-top:14px}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero{padding:76px 0 56px}
+.hero-ic{display:flex;flex-direction:column;gap:24px;max-width:46rem}
+.hero p.giris{font-size:1.22rem;color:var(--murekkep-2);max-width:38rem}
+.hero .soru{
+  font-family:var(--metin);font-style:italic;font-size:1.05rem;
+  color:var(--murekkep-2);border-left:3px solid var(--kirmizi);
+  padding:6px 0 6px 18px;max-width:34rem;
+}
+.kunye{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.kunye span{
+  font-family:var(--ui);font-size:.78rem;font-weight:600;
+  background:var(--yuzey);border:1px solid var(--cizgi);
+  color:var(--murekkep-2);padding:5px 11px;border-radius:999px;
+}
+
+/* ── Kartlar ──────────────────────────────────────────────── */
+.izgara{display:grid;gap:16px}
+.iki{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.uc{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+.kart{
+  background:var(--yuzey);border:1px solid var(--cizgi);border-radius:10px;
+  padding:20px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--golge-yok);
+}
+.kart h3{font-size:1.02rem}
+.kart p{font-size:.94rem;color:var(--murekkep-2);line-height:1.55}
+.kart .etiket{margin-bottom:2px}
+
+/* ── Ekran galerisi ───────────────────────────────────────── */
+.galeri{
+  display:flex;gap:22px;overflow-x:auto;padding:6px 24px 22px;
+  margin:0 -24px;scroll-snap-type:x mandatory;
+}
+.galeri>figure{scroll-snap-align:center;margin:0;flex:0 0 auto;width:290px;display:flex;flex-direction:column;gap:12px}
+.galeri figcaption{font-family:var(--ui);font-size:.85rem;color:var(--murekkep-2);line-height:1.45}
+.galeri figcaption b{display:block;color:var(--murekkep);font-size:.9rem;margin-bottom:2px}
+
+.tel{
+  background:var(--yuzey);border:1px solid var(--cizgi-2);border-radius:22px;
+  box-shadow:var(--golge);overflow:hidden;font-family:var(--ui);
+  display:flex;flex-direction:column;height:560px;
+}
+.tel-ust{
+  background:var(--yuzey-2);border-bottom:1px solid var(--cizgi);
+  padding:12px 14px 11px;display:flex;flex-direction:column;gap:7px;
+}
+.tel-satir{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tel-ad{font-size:.95rem;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.avatar{
+  width:26px;height:26px;border-radius:50%;background:var(--mavi);color:var(--mavi-uzeri);
+  display:grid;place-items:center;font-size:.72rem;font-weight:700;
+}
+.tel-alt-yazi{font-size:.72rem;color:var(--murekkep-3);font-family:var(--veri);letter-spacing:.04em}
+.tel-govde{padding:14px;display:flex;flex-direction:column;gap:11px;overflow:hidden;flex:1}
+.tel-menu{
+  border-top:1px solid var(--cizgi);background:var(--yuzey-2);
+  display:grid;grid-template-columns:repeat(4,1fr);padding:9px 4px 11px;
+}
+.tel-menu span{text-align:center;font-size:.62rem;color:var(--murekkep-3);letter-spacing:.02em}
+.tel-menu span.aktif{color:var(--mavi);font-weight:700}
+
+.blok{border:1px solid var(--cizgi);border-radius:9px;padding:11px 12px;display:flex;flex-direction:column;gap:7px}
+.blok.vurgu{border-color:var(--mavi);background:var(--mavi-yumusak)}
+.blok.uyari{border-color:var(--kirmizi);background:var(--kirmizi-yumusak)}
+.blok.iyi{border-color:var(--yesil);background:var(--yesil-yumusak)}
+.blok-bas{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.blok-bas b{font-size:.86rem;letter-spacing:-.005em}
+.blok p{font-size:.78rem;color:var(--murekkep-2);line-height:1.45}
+.blok .kucuk{font-size:.71rem;color:var(--murekkep-3)}
+
+.rozet{
+  font-size:.63rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 7px;border-radius:5px;white-space:nowrap;
+  background:var(--yuzey-2);color:var(--murekkep-2);
+}
+.rozet.iyi{background:var(--yesil-yumusak);color:var(--yesil)}
+.rozet.orta{background:var(--amber-yumusak);color:var(--amber)}
+.rozet.kotu{background:var(--kirmizi-yumusak);color:var(--kirmizi)}
+.rozet.bilgi{background:var(--mavi-yumusak);color:var(--mavi)}
+
+.cubuk{height:6px;border-radius:3px;background:var(--yuzey-2);overflow:hidden;border:1px solid var(--cizgi)}
+.cubuk i{display:block;height:100%;background:var(--mavi)}
+.cubuk.uyari i{background:var(--kirmizi)}
+.cubuk.iyi i{background:var(--yesil)}
+
+.liste{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.liste li{font-size:.78rem;color:var(--murekkep-2);display:flex;gap:7px;align-items:flex-start;line-height:1.4}
+.im{font-family:var(--veri);font-size:.72rem;flex:0 0 auto;margin-top:1px}
+.im.tik{color:var(--yesil)}
+.im.bos{color:var(--murekkep-3)}
+.im.eksi{color:var(--kirmizi)}
+
+.dugme{
+  font-family:var(--ui);font-size:.76rem;font-weight:700;border-radius:7px;
+  padding:9px 12px;text-align:center;border:1px solid var(--mavi);
+  background:var(--mavi);color:var(--mavi-uzeri);
+}
+.dugme.sade{background:transparent;color:var(--mavi)}
+.sayi{font-family:var(--veri);font-variant-numeric:tabular-nums;font-size:.76rem;color:var(--murekkep-2)}
+
+/* ── Tablo ────────────────────────────────────────────────── */
+.tablo-sar{overflow-x:auto;border:1px solid var(--cizgi);border-radius:10px;background:var(--yuzey)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-family:var(--ui);font-size:.87rem}
+th,td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--cizgi);vertical-align:top;line-height:1.45}
+th{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--murekkep-3);font-weight:700;background:var(--yuzey-2)}
+tr:last-child td{border-bottom:none}
+td b{color:var(--murekkep)}
+td.sayi-h{font-family:var(--veri);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ── Yargi kutusu ─────────────────────────────────────────── */
+.yargi{
+  background:var(--yuzey);border:1px solid var(--cizgi);border-left:4px solid var(--mavi);
+  border-radius:0 10px 10px 0;padding:22px 24px;display:flex;flex-direction:column;gap:12px;
+}
+.yargi.dikkat{border-left-color:var(--kirmizi)}
+.yargi p{font-size:1rem;color:var(--murekkep-2)}
+.yargi p.tez{font-size:1.08rem;color:var(--murekkep);font-family:var(--display);font-weight:600;letter-spacing:-.01em;line-height:1.4}
+
+.adim{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--cizgi)}
+.adim:last-child{border-bottom:none}
+.adim .no{font-family:var(--veri);font-size:.78rem;color:var(--mavi);font-weight:700;flex:0 0 44px;padding-top:4px}
+.adim .ic{display:flex;flex-direction:column;gap:5px}
+.adim h3{font-size:1rem}
+.adim p{font-size:.94rem;color:var(--murekkep-2)}
+
+.alt{padding:44px 0 70px;border-top:1px solid var(--cizgi)}
+.alt p{font-size:.86rem;color:var(--murekkep-3);font-family:var(--ui)}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  .bolum{padding:48px 0}
+  .hero{padding:52px 0 40px}
+}
+/* ── BITIR:STIL ─────────────────────────────────────────────── */
+</style>
+</head>
+<body>
+<!-- ── BASLA:GOVDE ───────────────────────────────────────────── -->
+
+<header class="hero">
+  <div class="sarma">
+    <div class="hero-ic">
+      <span class="etiket">Ürün konsepti · Veli takip uygulaması</span>
+      <h1>Sınıf Pusulası</h1>
+      <p class="giris">Veli, çocuğunun karnesini görüyor ama okulda hangi süreçten geçtiğini görmüyor. Bu konsept, o boşluğu dolduran uygulamanın arayüzünü, içeriğini ve iş modelini anlatıyor — fikrin zayıf noktaları dahil.</p>
+      <p class="soru">“Matematikte bu hafta hangi konu işlendi? Bu ünite için kaç test çözmesi gerekiyordu? Fen ünitesini daha iyi anlaması için evde ne yapabilirim?”</p>
+      <div class="kunye">
+        <span>7. sınıf pilotu</span>
+        <span>Veli + öğretmen tarafı</span>
+        <span>MEB yıllık plan tabanlı</span>
+        <span>Haftalık ritim</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga metin-akis">
+      <div class="bolum-bas">
+        <span class="etiket">01 · Problem</span>
+        <h2>Eksik olan bilgi değil, bağlam</h2>
+      </div>
+      <p>Veli bugün üç kanaldan bilgi alıyor: e-Okul’dan <strong>not ve devamsızlık</strong>, WhatsApp grubundan <strong>dedikodu hızında duyuru</strong>, çocuktan <strong>“iyi geçti”</strong>. Üçü de aynı sorunu paylaşıyor: olay bittikten sonra geliyorlar. Not düştüğünde konu üç hafta önce işlenmiştir; ödev duyurulduğunda teslim yarındır.</p>
+      <p>Velinin gerçekten istediği şey karne değil, <strong>ileriye dönük görüş</strong>: bu hafta sınıf nerede, çocuk sınıfın neresinde, önümüzdeki on gün ne geliyor ve evde bu akşam ne yapılabilir. Uygulamanın işi burada başlıyor — geçmişi raporlamak değil, önümüzdeki iki haftayı görünür kılmak.</p>
+      <p>Bu yüzden konseptin merkezinde tek bir soru var: <em>Veli bu bilgiyi öğrendikten sonra ne yapacak?</em> Cevabı olmayan hiçbir veriyi ekrana koymuyoruz. Aksi halde ürün, kaygıyı ölçen ama azaltmayan bir gösterge paneline dönüşür.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga">
+      <div class="bolum-bas">
+        <span class="etiket">02 · Arayüz</span>
+        <h2>Veli tarafı: dört ekran</h2>
+        <p style="color:var(--murekkep-2);font-size:1rem">Uygulama bir “panel” değil, haftalık bir ritim. Ana ekran bir haftayı gösterir; derinlik isteyen dersin içine iner. Aşağıdaki ekranlar gerçek 7. sınıf içeriğiyle çizildi.</p>
+      </div>
+    </div>
+  </div>
+  <div class="sarma">
+    <div class="galeri">
+
+      <figure>
+        <div class="tel">
+          <div class="tel-ust">
+            <div class="tel-satir">
+              <span class="tel-ad"><i class="avatar">Z</i> Zeynep · 7-B</span>
+              <span class="rozet bilgi">2. dönem</span>
+            </div>
+            <span class="tel-alt-yazi">9–13 ŞUBAT · 21. HAFTA</span>
+          </div>
+          <div class="tel-govde">
+            <div class="blok vurgu">
+              <div class="blok-bas"><b>Bu hafta özet</b><span class="sayi">4 ders</span></div>
+              <p>3 derste konu ilerledi, 2 ödev verildi, 1 ders geride kaldı.</p>
+            </div>
+            <div class="blok uyari">
+              <div class="blok-bas"><b>Fen Bilimleri</b><span class="rozet kotu">geride</span></div>
+              <p>Hücre ve Bölünmeler · Sınıf 4. kazanımda, Zeynep 2. kazanımda.</p>
+              <div class="cubuk uyari"><i style="width:45%"></i></div>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Matematik</b><span class="rozet orta">%60</span></div>
+              <p>Oran ve Orantı · Ünite değerlendirmesi 18 Şubat.</p>
+              <div class="cubuk"><i style="width:60%"></i></div>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Sosyal Bilgiler</b><span class="rozet iyi">ünite bitti</span></div>
+              <p>Kültür ve Miras · 3 ünitenin 3’ü tamamlandı.</p>
+            </div>
+            <div class="dugme sade">Haftalık raporu aç</div>
+          </div>
+          <div class="tel-menu"><span class="aktif">Bu hafta</span><span>Dersler</span><span>Takvim</span><span>Öneriler</span></div>
+        </div>
+        <figcaption><b>Bu hafta</b>Tek soruya cevap veriyor: neye bakmalıyım? Sıralama alfabetik değil, aciliyete göre.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="tel">
+          <div class="tel-ust">
+            <div class="tel-satir">
+              <span class="tel-ad">Matematik</span>
+              <span class="rozet bilgi">7. sınıf</span>
+            </div>
+            <span class="tel-alt-yazi">ÜNİTE 4 · ORAN VE ORANTI</span>
+          </div>
+          <div class="tel-govde">
+            <div class="blok">
+              <div class="blok-bas"><b>Bu hafta işlenenler</b><span class="kucuk">Öğretmen onaylı</span></div>
+              <ul class="liste">
+                <li><i class="im tik">✓</i> Oranı ve orantıyı örneklerle açıklar</li>
+                <li><i class="im tik">✓</i> Doğru orantılı iki çokluğu belirler</li>
+                <li><i class="im bos">○</i> Ters orantılı çokluklar <span class="kucuk">(gelecek hafta)</span></li>
+              </ul>
+            </div>
+            <div class="blok vurgu">
+              <div class="blok-bas"><b>Muhtemel ödev</b><span class="rozet bilgi">yüksek</span></div>
+              <p>Ders kitabı s. 142–145 + orantı problemleri. Aynı öğretmen geçen iki dönemde bu kazanımdan sonra verdi.</p>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Test hedefi</b><span class="sayi">2 / 3</span></div>
+              <p>Ünite için önerilen 3 testin 2’si çözüldü. Kalan test 18 Şubat’tan önce.</p>
+              <div class="cubuk"><i style="width:66%"></i></div>
+              <span class="kucuk">Doğru oranı %71 · sınıf ortalaması %68</span>
+            </div>
+            <div class="blok uyari">
+              <div class="blok-bas"><b>Zorlandığı yer</b></div>
+              <p>Ters orantı kurulan problemlerde 6 sorunun 4’ü yanlış.</p>
+            </div>
+          </div>
+          <div class="tel-menu"><span>Bu hafta</span><span class="aktif">Dersler</span><span>Takvim</span><span>Öneriler</span></div>
+        </div>
+        <figcaption><b>Ders detayı</b>“Muhtemel ödev” tahmindir ve öyle etiketlenir — kesinlik iddiası ürünün güvenini yakar.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="tel">
+          <div class="tel-ust">
+            <div class="tel-satir">
+              <span class="tel-ad">Takvim</span>
+              <span class="rozet orta">3 yaklaşan</span>
+            </div>
+            <span class="tel-alt-yazi">ÖNÜMÜZDEKİ 14 GÜN</span>
+          </div>
+          <div class="tel-govde">
+            <div class="blok uyari">
+              <div class="blok-bas"><b>Fen · Performans ödevi</b><span class="rozet kotu">4 gün</span></div>
+              <p>Hücre modeli · Grup ödevi, malzeme gerekiyor.</p>
+              <ul class="liste">
+                <li><i class="im tik">✓</i> Konu seçildi</li>
+                <li><i class="im eksi">✗</i> Malzeme alınmadı</li>
+                <li><i class="im bos">○</i> Sunum hazırlanmadı</li>
+              </ul>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Matematik · Ünite değerlendirme</b><span class="rozet orta">6 gün</span></div>
+              <p>Oran ve Orantı · 4 kazanım kapsanacak.</p>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Türkçe · Kitap okuma</b><span class="rozet">11 gün</span></div>
+              <p>Seçilen kitabın 60 sayfası kaldı · günde 6 sayfa yeter.</p>
+              <div class="cubuk iyi"><i style="width:64%"></i></div>
+            </div>
+            <div class="dugme">Hatırlatma kur</div>
+          </div>
+          <div class="tel-menu"><span>Bu hafta</span><span>Dersler</span><span class="aktif">Takvim</span><span>Öneriler</span></div>
+        </div>
+        <figcaption><b>Takvim</b>Teslim tarihi değil, kalan iş gösteriliyor. “60 sayfa kaldı, günde 6 sayfa” eyleme çevrilebilir bilgidir.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="tel">
+          <div class="tel-ust">
+            <div class="tel-satir">
+              <span class="tel-ad">Öneriler</span>
+              <span class="rozet bilgi">Fen · bu hafta</span>
+            </div>
+            <span class="tel-alt-yazi">HÜCRE VE BÖLÜNMELER</span>
+          </div>
+          <div class="tel-govde">
+            <div class="blok vurgu">
+              <div class="blok-bas"><b>Neden bu öneriler?</b></div>
+              <p>Zeynep mayozun evrelerinde 8 sorunun 5’inde hata yaptı; sınıf da bu kazanımda ortalamanın altında.</p>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Mitoz–mayoz karşılaştırma tablosu</b><span class="rozet">15 dk</span></div>
+              <p>Birlikte doldurun; boş tablo hazır, cevap anahtarı sizde.</p>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>EBA animasyonu</b><span class="rozet">4 dk</span></div>
+              <p>Mayoz bölünme evreleri · doğrudan bağlantı.</p>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>12 soruluk mini test</b><span class="rozet">20 dk</span></div>
+              <p>Sadece hata yaptığı kazanımdan · sonuç otomatik işlenir.</p>
+            </div>
+            <div class="blok iyi">
+              <div class="blok-bas"><b>Sofrada tek soru</b></div>
+              <p>“Saçın uzuyor ama kardeşin olmuyor — ikisi de bölünme, farkı ne?”</p>
+            </div>
+          </div>
+          <div class="tel-menu"><span>Bu hafta</span><span>Dersler</span><span>Takvim</span><span class="aktif">Öneriler</span></div>
+        </div>
+        <figcaption><b>Öneriler</b>Her öneri süre etiketli ve gerekçeli. Gerekçesiz öneri, velinin gözünde reklamdır.</figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga">
+      <div class="bolum-bas">
+        <span class="etiket">03 · Arayüz</span>
+        <h2>Öğretmen tarafı: 30 saniye</h2>
+        <p style="color:var(--murekkep-2);font-size:1rem">Ürünün kaderi burada belirleniyor. Öğretmen haftada dörtten fazla dokunuş yapmak zorunda kalırsa uygulama üç haftada ölür. Bu yüzden öğretmen tarafı bir form değil, bir onay ekranı: sistem müfredat takviminden tahmin eder, öğretmen sadece düzeltir.</p>
+      </div>
+    </div>
+  </div>
+  <div class="sarma">
+    <div class="galeri">
+
+      <figure>
+        <div class="tel">
+          <div class="tel-ust">
+            <div class="tel-satir">
+              <span class="tel-ad">7-B · Matematik</span>
+              <span class="rozet bilgi">Cuma</span>
+            </div>
+            <span class="tel-alt-yazi">HAFTALIK ONAY · TAHMİN HAZIR</span>
+          </div>
+          <div class="tel-govde">
+            <div class="blok vurgu">
+              <div class="blok-bas"><b>Bu hafta buraya kadar geldiniz mi?</b></div>
+              <ul class="liste">
+                <li><i class="im tik">✓</i> Oranı ve orantıyı açıklar</li>
+                <li><i class="im tik">✓</i> Doğru orantılı çoklukları belirler</li>
+                <li><i class="im bos">○</i> Ters orantı <span class="kucuk">(dokununca işaretle)</span></li>
+              </ul>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Ödev verdiniz mi?</b></div>
+              <p>Ders kitabı s. 142–145 <span class="rozet bilgi">geçen dönemden</span></p>
+              <div style="display:flex;gap:8px;margin-top:2px">
+                <div class="dugme" style="flex:1">Evet, aynısı</div>
+                <div class="dugme sade" style="flex:1">Değiştir</div>
+              </div>
+            </div>
+            <div class="blok iyi">
+              <div class="blok-bas"><b>Toplam süre</b><span class="sayi">28 sn</span></div>
+              <p>32 veliye pazar akşamı gönderilecek.</p>
+            </div>
+          </div>
+          <div class="tel-menu"><span class="aktif">Onay</span><span>Sınıflar</span><span>Ödev</span><span>Veli</span></div>
+        </div>
+        <figcaption><b>Haftalık onay</b>Yazmak yok, düzeltmek var. Öğretmenin işi “veri girmek” değil, tahmini onaylamak.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="tel">
+          <div class="tel-ust">
+            <div class="tel-satir">
+              <span class="tel-ad">Haftalık rapor</span>
+              <span class="rozet iyi">Pazar 20.00</span>
+            </div>
+            <span class="tel-alt-yazi">ZEYNEP · 21. HAFTA</span>
+          </div>
+          <div class="tel-govde">
+            <div class="blok iyi">
+              <div class="blok-bas"><b>Bu hafta konuşulacak tek şey</b></div>
+              <p>Fen’de mayoz evreleri. Diğer her şey yolunda — bu akşam sadece bunu konuşun.</p>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Matematik</b><span class="rozet iyi">↑ %8</span></div>
+              <div class="cubuk iyi"><i style="width:74%"></i></div>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Türkçe</b><span class="rozet">→ sabit</span></div>
+              <div class="cubuk"><i style="width:66%"></i></div>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Fen</b><span class="rozet kotu">↓ %6</span></div>
+              <div class="cubuk uyari"><i style="width:45%"></i></div>
+            </div>
+            <div class="blok">
+              <div class="blok-bas"><b>Gelecek hafta</b></div>
+              <p>Ters orantı başlıyor · performans ödevi teslimi 21 Şubat.</p>
+            </div>
+          </div>
+          <div class="tel-menu"><span class="aktif">Bu hafta</span><span>Dersler</span><span>Takvim</span><span>Öneriler</span></div>
+        </div>
+        <figcaption><b>Pazar raporu</b>Ürünün asıl kalbi. Haftada bir bildirim, tek bir odak maddesi — “her şeye bak” demek hiçbir şeye baktırmaz.</figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga metin-akis">
+      <div class="bolum-bas">
+        <span class="etiket">04 · Zor kısım</span>
+        <h2>Bu veri nereden gelecek?</h2>
+      </div>
+      <p>Tasarım kolay, veri zor. “Matematikte bu hafta hangi konu işlendi” bilgisi hiçbir yerde hazır durmuyor — e-Okul’da not ve devamsızlık var, işlenen konu yok. Üç kaynak stratejisi mümkün ve gerçekçi ürün üçünü birden kullanır:</p>
+    </div>
+  </div>
+  <div class="sarma" style="margin-top:26px">
+    <div class="tablo-sar">
+      <table>
+        <thead><tr><th>Kaynak</th><th>Ne verir</th><th>Zorluk</th><th>Karar</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>MEB yıllık plan</b><br><span style="color:var(--murekkep-2)">Kamuya açık müfredat takvimi</span></td>
+            <td>Hangi hafta hangi kazanım, sınıf ve ders bazında. Ülke genelinde ortak.</td>
+            <td class="sayi-h">Düşük</td>
+            <td><span class="rozet iyi">Temel katman</span></td>
+          </tr>
+          <tr>
+            <td><b>Öğretmen onayı</b><br><span style="color:var(--murekkep-2)">Haftada 30 saniye</span></td>
+            <td>Gerçekte nereye gelindiği, verilen ödev, sınav tarihi. Tahmini gerçeğe çevirir.</td>
+            <td class="sayi-h">Yüksek</td>
+            <td><span class="rozet orta">Okul üzerinden</span></td>
+          </tr>
+          <tr>
+            <td><b>Veli / öğrenci girişi</b><br><span style="color:var(--murekkep-2)">Defter fotoğrafı, tek dokunuş</span></td>
+            <td>Çözülen test, ödev durumu, defterden okunan konu başlığı.</td>
+            <td class="sayi-h">Orta</td>
+            <td><span class="rozet bilgi">İlk sürüm</span></td>
+          </tr>
+          <tr>
+            <td><b>Okul yazılımı entegrasyonu</b><br><span style="color:var(--murekkep-2)">K12NET vb.</span></td>
+            <td>Not, devamsızlık, duyuru, sınav takvimi — hazır ve doğru.</td>
+            <td class="sayi-h">Yüksek</td>
+            <td><span class="rozet">Sonraki faz</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="sarma" style="margin-top:26px">
+    <div class="omurga metin-akis">
+      <p>Kritik tasarım kararı şu: <strong>uygulama öğretmen olmadan da çalışmalı.</strong> Müfredat takvimi tek başına “bu hafta muhtemelen şu konudasınız” diyebilir; veli haftada bir kez “evet/hayır/geride kaldık” diye onaylayınca tahmin kişiselleşir. Öğretmen katıldığında bilgi kesinleşir, katılmadığında ürün ölmez. Öğretmene bağımlı kurgu, satın alma kararını okula devreder ve şirketi tek bir uzun satış döngüsüne mahkûm eder.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga">
+      <div class="bolum-bas">
+        <span class="etiket">05 · Talep</span>
+        <h2>Böyle bir ihtiyaç var mı?</h2>
+      </div>
+    </div>
+    <div class="omurga" style="margin-bottom:26px">
+      <div class="yargi">
+        <p class="tez">İhtiyaç var, ama velinin aradığı şey “takip” değil; kaygısına bir cevap.</p>
+        <p>Veli “çocuğum geri kalıyor mu?” sorusuna cevap arıyor. Takip bunun aracı, kendisi değil. Sadece takip sunan ürün üç hafta sonra açılmaz; “bu hafta şunu yapın” diyen ürün pazar akşamları açılır.</p>
+      </div>
+    </div>
+    <div class="izgara iki">
+      <div class="kart">
+        <span class="etiket">Talebin kanıtı</span>
+        <h3>WhatsApp veli grubu</h3>
+        <p>Her sınıfta biri var ve tam da bu işi yapıyor: hangi konu işlendi, ödev neydi, sınav ne zaman. Kötü çalışıyor ama herkes kullanıyor. Bir davranış zaten kendiliğinden oluşmuşsa talep kanıtlanmıştır — mesele o davranışı daha iyi yapmaktır.</p>
+      </div>
+      <div class="kart">
+        <span class="etiket">Ödeme isteği</span>
+        <h3>Zaten harcanan bütçe</h3>
+        <p>LGS hazırlığı olan hane kursa, deneme yayınına, özel derse, koçluğa ödeme yapıyor. Yeni bir bütçe açmıyorsunuz; var olan bütçenin küçük bir dilimini istiyorsunuz. Bu, sıfırdan ödeme alışkanlığı kurmaktan çok daha kolaydır.</p>
+      </div>
+      <div class="kart">
+        <span class="etiket">Rakip</span>
+        <h3>e-Okul ve okul yazılımları</h3>
+        <p>e-Okul resmî ve ücretsiz ama sadece sonuç gösteriyor: not, devamsızlık. Özel okulların yazılımları duyuru ve not taşıyor, öneri üretmiyor. İkisi de “işlenen konu → çocuğun durumu → bu akşam ne yapmalı” zincirini kurmuyor. Boşluk gerçek.</p>
+      </div>
+      <div class="kart">
+        <span class="etiket">En büyük risk</span>
+        <h3>Boş uygulama sorunu</h3>
+        <p>Veli indirir, öğretmen veri girmez, ekranlar boş kalır, veli siler. Pazar sorunu değil, tedarik sorunu. Bu yüzden ilk sürüm müfredat takvimiyle <em>ilk gün dolu</em> açılmak zorunda.</p>
+      </div>
+      <div class="kart">
+        <span class="etiket">İkinci risk</span>
+        <h3>Öğretmen direnci</h3>
+        <p>“Beni denetliyorlar, planın gerisindeysem görünecek” algısı ürünü okulda öldürür. Çözüm arayüzde: veliye <em>öğretmenin hızı</em> değil, <em>çocuğun sınıfa göre konumu</em> gösterilir. Sınıf ortalamasına kıyas evet, öğretmen karnesi asla.</p>
+      </div>
+      <div class="kart">
+        <span class="etiket">Üçüncü risk</span>
+        <h3>Kaygı körükleme</h3>
+        <p>Günlük bildirim, kırmızı uyarılar ve sürekli kıyas, evde çocuk üzerinde baskıya dönüşür; veli de bir süre sonra bakmaktan kaçınır. Tasarım kararı: günlük değil haftalık ritim, haftada tek odak maddesi, ergen için görünürlük ayarı.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga">
+      <div class="bolum-bas">
+        <span class="etiket">06 · İş modeli</span>
+        <h2>Kim öder, ne kadar</h2>
+      </div>
+      <div class="metin-akis" style="margin-bottom:24px">
+        <p>İki yol var ve seçim ürünü baştan şekillendirir. Rakamlar hipotezdir; ilk işiniz onları doğrulamaktır, savunmak değil.</p>
+      </div>
+    </div>
+  </div>
+  <div class="sarma">
+    <div class="tablo-sar">
+      <table>
+        <thead><tr><th>Model</th><th>Nasıl</th><th>Avantaj</th><th>Bedel</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Veliye doğrudan</b></td>
+            <td>Aylık abonelik, ücretsiz temel katman + ödenen öneri/analiz katmanı.</td>
+            <td>Hızlı başlar, okul iznine tabi değil, geri bildirim döngüsü kısa.</td>
+            <td>Öğretmen verisi yok; tahmine ve veli girişine bağımlı. Yaz aylarında kullanım düşer.</td>
+          </tr>
+          <tr>
+            <td><b>Okul üzerinden</b></td>
+            <td>Okul lisansı, öğrenci başı yıllık; veli uygulaması okul paketinin parçası.</td>
+            <td>Öğretmen verisi gerçek, kullanım oranı yüksek, tahsilat tek noktadan.</td>
+            <td>Satış döngüsü bir eğitim yılı sürer; her okul özelleştirme ister.</td>
+          </tr>
+          <tr>
+            <td><b>Kurs / koçluk</b></td>
+            <td>Dershane ve etüt merkezine beyaz etiket; veli iletişim aracı olarak satılır.</td>
+            <td>Ödeme isteği en yüksek segment, karar verici tek kişi.</td>
+            <td>Ürün onların markasına gömülür; kendi markanızı büyütmez.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="sarma" style="margin-top:26px">
+    <div class="omurga metin-akis">
+      <p><strong>Öneri:</strong> veliye doğrudan başlayın, ama ilk günden 2–3 okulla pilot yürütün. Doğrudan satış size gerçek kullanım verisi ve hızlı yineleme verir; pilot okullar ise okul kanalının çalışıp çalışmadığını, siz henüz küçükken öğretir. Fiyat hipotezi olarak aylık bedeli “bir deneme sınavı paketi” bandına oturtun — kahve parası konumlandırması ürünü ciddiyetsiz gösterir, özel ders fiyatı ise kimsenin denemeyeceği kadar yüksektir.</p>
+      <p>Bir de kaçınılmaz bir yükümlülük var: <strong>çocuk verisi işliyorsunuz.</strong> KVKK açısından veli rızası, verinin okul içinde kalması, silme hakkı ve çocuğun kendi verisini görme hakkı ürünün ilk sürümünde çözülmüş olmalı. Bunu sonraya bırakan eğitim ürünleri, ilk okul sözleşmesinde duvara toslar.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga">
+      <div class="bolum-bas">
+        <span class="etiket">07 · Yol</span>
+        <h2>Nereden başlanır</h2>
+        <p style="color:var(--murekkep-2);font-size:1rem">Sırayla — her adım bir öncekinin cevabına bağlı olduğu için numaralı.</p>
+      </div>
+      <div>
+        <div class="adim">
+          <span class="no">01</span>
+          <div class="ic">
+            <h3>20 veliyle konuş, uygulama yazma</h3>
+            <p>Tek soru: “Geçen hafta çocuğunun okulda ne işlediğini nereden öğrendin?” Cevaplarda WhatsApp grubu çıkacak. Kaç kişinin bunun için para ödemeyi düşündüğünü de sorun — “iyi fikir” demek ile ödemek arasındaki fark, ürünün kaderidir.</p>
+          </div>
+        </div>
+        <div class="adim">
+          <span class="no">02</span>
+          <div class="ic">
+            <h3>Tek sınıf, tek dönem, dört ders</h3>
+            <p>7. sınıf; matematik, fen, Türkçe, sosyal bilgiler. MEB yıllık planını haftalık kazanım takvimine çevirin. Bu, uygulamanın ilk gün dolu açılmasını sağlayan tek varlıktır ve bir kez üretilir.</p>
+          </div>
+        </div>
+        <div class="adim">
+          <span class="no">03</span>
+          <div class="ic">
+            <h3>Uygulamadan önce pazar akşamı e-postası</h3>
+            <p>30 veliye dört hafta boyunca elle hazırlanmış haftalık rapor gönderin. Açılma oranı ve gelen cevaplar, milyonluk yazılım kararından çok daha fazlasını söyler. Kimse açmıyorsa arayüz sorununuz yok, fikir sorununuz var.</p>
+          </div>
+        </div>
+        <div class="adim">
+          <span class="no">04</span>
+          <div class="ic">
+            <h3>Sonra uygulama, sonra öğretmen</h3>
+            <p>E-posta tutuyorsa ekranları yazın. Ancak birkaç yüz aktif veliye ulaştıktan sonra öğretmen tarafını açın — o zaman okula gittiğinizde elinizde “okulunuzdan 40 veli zaten kullanıyor” cümlesi olur. Bu cümle, en iyi satış sunumundan daha etkilidir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bolum">
+  <div class="sarma">
+    <div class="omurga">
+      <div class="bolum-bas">
+        <span class="etiket">08 · Hüküm</span>
+        <h2>Sence tutar mı</h2>
+      </div>
+      <div class="yargi dikkat">
+        <p class="tez">Fikir sağlam, zorluk fikirde değil tedarikte. Ürünü kazandıracak şey takip ekranları değil, pazar akşamı gönderilen tek cümlelik öneri olacak.</p>
+        <p>Takip özelliği kopyalanabilir ve zaten yarısı e-Okul’da var. Kopyalanamayacak olan şey, işlenen konuyu çocuğun hatalarıyla birleştirip “bu akşam 15 dakikada şunu yapın” diyebilmek — bunun için hem müfredat takvimine hem de çocuğun çözdüğü soruların verisine sahip olmak gerekiyor. İki tarafı birden kuran ilk ekip, sonradan gelenin kolayca geçemeyeceği bir yerde durur.</p>
+        <p>Bu yüzden ilk sürümü “veli takip uygulaması” diye değil, <strong>“velinin haftalık eğitim danışmanı”</strong> diye kurgulayın. Takip, danışmanlığın hammaddesidir; ürünün kendisi değil.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="alt">
+  <div class="sarma"><div class="omurga">
+    <p>Sınıf Pusulası · ürün konsepti ve arayüz taslağı. Ekranlar gerçek 7. sınıf müfredat içeriğiyle çizilmiştir; fiyat ve iş modeli rakamları doğrulanacak hipotezlerdir.</p>
+  </div></div>
+</footer>
+
+<!-- ── BITIR:GOVDE ───────────────────────────────────────────── -->
+</body>
+</html>
